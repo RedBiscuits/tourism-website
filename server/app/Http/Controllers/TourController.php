@@ -75,7 +75,7 @@ class TourController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(tour $tour)
+    public function destroy(Tour $tour)
     {
         $tour->delete();
         return $this->respondOk(null);

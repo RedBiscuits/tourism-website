@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('tours', function (Blueprint $table) {
             $table->id();
             $table->String('name');
-            $table->integer('location');
+            $table->String('location');
             $table->String('description');
             $table->String('duration');
             $table->json('includes')->nullable();

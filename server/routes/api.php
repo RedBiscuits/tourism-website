@@ -35,7 +35,7 @@ Route::controller(ReviewController::class)
         Route::get('/all', 'index')->name('index');
         Route::get('/{review}', 'show')->name('show');
     });
-    
+
 
 Route::controller(OfferController::class)
     ->prefix('offers')
@@ -60,10 +60,10 @@ Route::controller(TourController::class)
 
         Route::middleware('auth:sanctum')->group(function () {
             Route::post('/store', 'store')->name('store');
-            Route::post('/update/{product}', 'update')->name('update');
-            Route::delete('/{product}', 'destroy')->name('destroy');
+            Route::post('/update/{tour}', 'update')->name('update');
+            Route::delete('/{tour}', 'destroy')->name('destroy');
         });
 
         Route::get('/all', 'index')->name('index');
-        Route::get('/{product}', 'show')->name('show');
+        Route::get('/{tour}', 'show')->name('show');
     });
