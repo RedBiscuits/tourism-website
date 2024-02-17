@@ -28,6 +28,9 @@ class StoreTourRequest extends FormRequest
             'duration' => 'required|string',
             'includes' => 'array',
             'excludes' => 'array',
+            'options' => 'array',
+            'options.*.name' => 'string',
+            'options.*.price' => 'numeric|min:0',
         ];
     }
 }

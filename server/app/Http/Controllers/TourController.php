@@ -4,10 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Tour\StoreTourRequest;
 use App\Http\Requests\Tour\UpdateTourRequest;
+use App\Http\Services\TourService;
 use App\Models\Tour;
 
 class TourController extends Controller
 {
+
+    private TourService $tour_service;
+
+
+    public function __construct(TourService $service)
+    {
+        $this->tour_service = $service;
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -26,7 +36,7 @@ class TourController extends Controller
             ->when(request('duration'), function ($query, $search) {
                 $query->where('duration', 'like', "$search%");
             })
-            ->with(['media', 'reviews'])
+            ->with(['media', 'reviews', 'options:id,tour_id,name,price'])
             ->paginate();
 
         return $this->respondOk($commodities);
@@ -45,7 +55,11 @@ class TourController extends Controller
             $tour->addMediaFromRequest('image')->toMediaCollection();
         }
 
-        return $this->respondCreated($tour->load(['media', 'reviews']));
+        $options = collect($request->input('options'));
+
+        $this->tour_service->create_options($tour, $options);
+
+        return $this->respondCreated($tour->load(['media', 'reviews', 'options:id,tour_id,name,price']));
     }
 
     /**
@@ -53,7 +67,7 @@ class TourController extends Controller
      */
     public function show(Tour $tour)
     {
-        return $this->respondOk($tour->load(['media', 'reviews']));
+        return $this->respondOk($tour->load(['media', 'reviews', 'options:id,tour_id,name,price']));
     }
 
 

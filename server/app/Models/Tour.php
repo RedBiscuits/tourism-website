@@ -26,6 +26,11 @@ class Tour extends Model implements HasMedia
         return $this->hasMany(Review::class);
     }
 
+    public function options()
+    {
+        return $this->hasMany(Option::class);
+    }
+
     public function setIncludesAttribute($value)
     {
         $this->attributes['includes'] = json_encode($value);
