@@ -23,7 +23,7 @@ class UpdateOptionRequest extends FormRequest
     {
         return [
             'name' => 'string',
-            'price' => 'decimal|min:0',
+            'price' => 'numeric|min:0',
             'tour_id' => 'integer|min:1|exists:tours,id',
         ];
     }

@@ -23,7 +23,7 @@ class CreateOptionRequest extends FormRequest
     {
         return [
             'name' => 'required|string',
-            'price' => 'required|decimal|min:0',
+            'price' => 'required||min:0',
             'tour_id' => 'required|integer|min:1|exists:tours,id',
         ];
     }
