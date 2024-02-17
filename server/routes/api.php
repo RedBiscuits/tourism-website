@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\TourController;
 use App\Http\Controllers\OfferController;
+use App\Http\Controllers\OptionsController;
 use App\Http\Controllers\ReviewController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -66,4 +67,21 @@ Route::controller(TourController::class)
 
         Route::get('/all', 'index')->name('index');
         Route::get('/{tour}', 'show')->name('show');
+    });
+
+
+
+Route::controller(OptionsController::class)
+    ->prefix('options')
+    ->name('option.')
+    ->group(function () {
+
+        Route::middleware('auth:sanctum')->group(function () {
+            Route::post('/store', 'store')->name('store');
+            Route::post('/update/{option}', 'update')->name('update');
+            Route::delete('/{option}', 'destroy')->name('destroy');
+        });
+
+        Route::get('/all', 'index')->name('index');
+        Route::get('/{option}', 'show')->name('show');
     });
