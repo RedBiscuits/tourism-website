@@ -25,6 +25,7 @@ class StoreReviewRequest extends FormRequest
             'title' => 'required|string|max:255',
             'body' => 'required|string|max:2055',
             'stars' => 'required|integer|min:0|max:5',
+            'tour_id' => 'required|integer|min:1|exists:tours,id',
         ];
     }
 }

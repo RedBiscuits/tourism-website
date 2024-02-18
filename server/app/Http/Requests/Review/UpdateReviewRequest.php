@@ -25,6 +25,7 @@ class UpdateReviewRequest extends FormRequest
             'title' => 'string|max:255',
             'body' => 'string|max:2055',
             'stars' => 'integer|min:0|max:5',
+            'tour_id' => 'integer|min:1|exists:tours,id',
         ];
     }
 }

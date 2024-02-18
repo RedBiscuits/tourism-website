@@ -28,11 +28,13 @@ Route::controller(ReviewController::class)
     ->prefix('reviews')
     ->name('review.')
     ->group(function () {
+
+        Route::middleware('auth:sanctum')->group(function () {
+            Route::post('/update/{review}', 'update')->name('update');
+            Route::delete('/{review}', 'destroy')->name('destroy');
+        });
+
         Route::post('/store', 'store')->name('store');
-        Route::post('/update/{review}', 'update')->name('update')
-            ->middleware('auth:sanctum');
-        Route::delete('/{review}', 'destroy')->name('destroy')
-            ->middleware('auth:sanctum');
         Route::get('/all', 'index')->name('index');
         Route::get('/{review}', 'show')->name('show');
     });
