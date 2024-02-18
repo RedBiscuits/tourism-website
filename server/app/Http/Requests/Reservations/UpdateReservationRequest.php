@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Tour;
+namespace App\Http\Requests\Reservations;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateTourRequest extends FormRequest
+class UpdateReservationRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,12 +23,15 @@ class UpdateTourRequest extends FormRequest
     {
         return [
             'name' => 'string',
-            'description' => 'string',
-            'location' => 'string',
-            'duration' => 'string',
-            'includes' => 'array',
-            'excludes' => 'array',
-            'price' => 'numeric|min:1',
+            'email' => 'email',
+            'phone' => 'string',
+            'tour_id' => 'integer|min:1|exists:tours,id',
+            'date' => 'date',
+            'hotel_name' => 'string',
+            'room_uid' => 'string',
+            'num_people' => 'integer|min:1',
+            'total_amount' => 'numeric|min:1',
+            'invoice_id' => 'string',
         ];
     }
 }

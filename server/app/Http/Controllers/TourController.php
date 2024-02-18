@@ -92,6 +92,6 @@ class TourController extends Controller
     public function destroy(Tour $tour)
     {
         $tour->delete();
-        return $this->respondOk(null);
+        return $this->respondNoContent();
     }
 }

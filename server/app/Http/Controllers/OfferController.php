@@ -73,6 +73,6 @@ class OfferController extends Controller
     public function destroy(Offer $offer)
     {
         $offer->delete();
-        return $this->respondOk(null);
+        return $this->respondNoContent();
     }
 }

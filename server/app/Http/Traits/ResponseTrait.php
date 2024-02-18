@@ -43,4 +43,9 @@ trait ResponseTrait
             'errors' => $errors,
         ], 404);
     }
+
+    public function respondNoContent()
+    {
+        return response()->noContent();
+    }
 }

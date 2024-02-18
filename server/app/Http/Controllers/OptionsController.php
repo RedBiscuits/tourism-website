@@ -47,7 +47,7 @@ class OptionsController extends Controller
     public function destroy(Option $option)
     {
         $option->delete();
-        return $this->respondOk([]);
+        return $this->respondNoContent();
     }
 
 

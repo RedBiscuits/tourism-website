@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\TourController;
 use App\Http\Controllers\OfferController;
 use App\Http\Controllers\OptionsController;
+use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\ReviewController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -86,4 +87,20 @@ Route::controller(OptionsController::class)
 
         Route::get('/all', 'index')->name('index');
         Route::get('/{option}', 'show')->name('show');
+    });
+
+
+Route::controller(ReservationController::class)
+    ->prefix('reservations')
+    ->name('reservation.')
+    ->group(function () {
+
+        Route::middleware('auth:sanctum')->group(function () {
+            Route::post('/update/{reservation}', 'update')->name('update');
+            Route::delete('/{reservation}', 'destroy')->name('destroy');
+            Route::get('/all', 'index')->name('index');
+        });
+
+        Route::post('/store', 'store')->name('store');
+        Route::get('/{reservation}', 'show')->name('show');
     });
