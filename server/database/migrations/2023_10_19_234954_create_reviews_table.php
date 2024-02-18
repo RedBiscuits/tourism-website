@@ -17,6 +17,7 @@ return new class extends Migration
             $table->String('body');
             $table->tinyInteger('stars')->default(0)->unsigned();
             $table->foreignId('tour_id')->references('id')->on('tours')->onDelete('cascade');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

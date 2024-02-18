@@ -6,6 +6,7 @@ use App\Http\Requests\Tour\StoreTourRequest;
 use App\Http\Requests\Tour\UpdateTourRequest;
 use App\Http\Services\TourService;
 use App\Models\Tour;
+use Illuminate\Http\Request;
 
 class TourController extends Controller
 {
@@ -93,5 +94,38 @@ class TourController extends Controller
     {
         $tour->delete();
         return $this->respondNoContent();
+    }
+
+        /**
+     * Add an image to the tour's media collection.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Tour $tour
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function addImage(Request $request, Tour $tour)
+    {
+        $request->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        $tour->addMediaFromRequest('image')->toMediaCollection();
+
+        return response()->json(['message' => 'Image added successfully']);
+    }
+
+    /**
+     * Delete a specific image from the tour's media collection.
+     *
+     * @param \App\Models\Tour $tour
+     * @param int $mediaId
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function deleteImage(Tour $tour)
+    {
+
+        $tour->deleteMedia(request()->get('mediaId'));
+
+        return response()->json(['message' => 'Image deleted successfully']);
     }
 }

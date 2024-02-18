@@ -13,14 +13,16 @@ class ReviewController extends Controller
      */
     public function index()
     {
-        $reviews = Review::query()
+        $reviews = Review::withTrashed()
+            ->withTrashed()
             ->when(request('title'), function ($query, $search) {
                 $query->where('title', 'like', "%$search%");
             })->when(request('body'), function ($query, $search) {
                 $query->where('body', 'like', "%$search%");
             })->when(request('stars'), function ($query, $stars) {
                 $query->where('stars', $stars);
-            })->paginate();
+            })
+            ->paginate();
 
         return $this->respondOk($reviews);
     }
@@ -54,6 +56,16 @@ class ReviewController extends Controller
      * Remove the specified resource from storage.
      */
     public function destroy(Review $review)
+    {
+        $review->forceDelete();
+        return $this->respondNoContent();
+    }
+
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function delete(Review $review)
     {
         $review->delete();
         return $this->respondNoContent();

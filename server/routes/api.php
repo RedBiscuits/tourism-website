@@ -32,7 +32,9 @@ Route::controller(ReviewController::class)
 
         Route::middleware('auth:sanctum')->group(function () {
             Route::post('/update/{review}', 'update')->name('update');
-            Route::delete('/{review}', 'destroy')->name('destroy');
+            Route::delete('/remove/{review}', 'destroy')->name('destroy');
+            Route::delete('/{review}', 'delete')->name('delete');
+
         });
 
         Route::post('/store', 'store')->name('store');
@@ -65,6 +67,8 @@ Route::controller(TourController::class)
         Route::middleware('auth:sanctum')->group(function () {
             Route::post('/store', 'store')->name('store');
             Route::post('/update/{tour}', 'update')->name('update');
+            Route::post('/add-image/{tour}', 'addImage')->name('addImage');
+            Route::post('/delete-image/{tour}', 'deleteImage')->name('deleteImage');
             Route::delete('/{tour}', 'destroy')->name('destroy');
         });
 
