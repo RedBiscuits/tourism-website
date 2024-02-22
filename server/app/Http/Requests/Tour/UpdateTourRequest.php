@@ -29,8 +29,8 @@ class UpdateTourRequest extends FormRequest
             'includes' => 'array',
             'excludes' => 'array',
             'price' => 'numeric|min:1',
-            'image' => 'array',
-            'image.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'media' => 'array',
+            'media.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ];
     }
 }

@@ -52,8 +52,8 @@ class TourController extends Controller
 
         $tour = Tour::create($request->validated());
 
-        if ($request->hasFile('image')) {
-            $tour->addMultipleMediaFromRequest(['image'])->each(function ($fileAdder) {
+        if ($request->hasFile('media')) {
+            $tour->addMultipleMediaFromRequest(['media'])->each(function ($fileAdder) {
                 $fileAdder->toMediaCollection();
             });
         }
@@ -81,8 +81,8 @@ class TourController extends Controller
     {
         $tour->update($request->validated());
 
-        if ($request->hasFile('image')) {
-            $tour->addMultipleMediaFromRequest(['image'])->each(function ($fileAdder) {
+        if ($request->hasFile('media')) {
+            $tour->addMultipleMediaFromRequest(['media'])->each(function ($fileAdder) {
                 $fileAdder->toMediaCollection();
             });
         }
@@ -109,10 +109,10 @@ class TourController extends Controller
     public function addImage(Request $request, Tour $tour)
     {
         $request->validate([
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'media' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $tour->addMediaFromRequest('image')->toMediaCollection();
+        $tour->addMediaFromRequest('media')->toMediaCollection();
 
         return response()->json(['message' => 'Image added successfully']);
     }
