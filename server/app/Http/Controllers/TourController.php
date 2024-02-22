@@ -53,7 +53,9 @@ class TourController extends Controller
         $tour = Tour::create($request->validated());
 
         if ($request->hasFile('image')) {
-            $tour->addMediaFromRequest('image')->toMediaCollection();
+            $tour->addMultipleMediaFromRequest(['image'])->each(function ($fileAdder) {
+                $fileAdder->toMediaCollection();
+            });
         }
 
         $options = collect($request->input('options'));
@@ -80,11 +82,12 @@ class TourController extends Controller
         $tour->update($request->validated());
 
         if ($request->hasFile('image')) {
-            $tour->clearMediaCollection('images');
-            $tour->addMediaFromRequest('image')->toMediaCollection();
+            $tour->addMultipleMediaFromRequest(['image'])->each(function ($fileAdder) {
+                $fileAdder->toMediaCollection();
+            });
         }
 
-        return $this->respondOk($tour);
+        return $this->respondOk($tour->load(['media', 'reviews', 'options:id,tour_id,name,price']));
     }
 
     /**
@@ -96,7 +99,7 @@ class TourController extends Controller
         return $this->respondNoContent();
     }
 
-        /**
+    /**
      * Add an image to the tour's media collection.
      *
      * @param \Illuminate\Http\Request $request
@@ -123,7 +126,6 @@ class TourController extends Controller
      */
     public function deleteImage(Tour $tour)
     {
-
         $tour->deleteMedia(request()->get('mediaId'));
 
         return response()->json(['message' => 'Image deleted successfully']);

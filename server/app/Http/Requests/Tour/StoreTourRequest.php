@@ -32,6 +32,8 @@ class StoreTourRequest extends FormRequest
             'options' => 'array',
             'options.*.name' => 'string',
             'options.*.price' => 'numeric|min:0',
+            'image' => 'array',
+            'image.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ];
     }
 }
