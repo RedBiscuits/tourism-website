@@ -6,7 +6,7 @@ return [
      * The disk on which to store added files and derived images by default. Choose
      * one or more of the disks you've configured in config/filesystems.php.
      */
-    'disk_name' => env('MEDIA_DISK', 'public'),
+    'disk_name' => 'media',
 
     /*
      * The maximum file size of an item in bytes.
@@ -39,7 +39,7 @@ return [
     /*
      * When enabled, media collections will be serialised using the default
      * laravel model serialization behaviour.
-     * 
+     *
      * Keep this option disabled if using Media Library Pro components (https://medialibrary.pro)
      */
     'use_default_collection_serialization' => false,
