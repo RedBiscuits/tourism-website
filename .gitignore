@@ -9,6 +9,7 @@ app/storage/
 
 # Laravel 5 & Lumen specific
 public/storage
+public/media
 public/hot
 
 # Laravel 5 & Lumen specific with changed public path
@@ -21,3 +22,4 @@ Homestead.yaml
 Homestead.json
 /.vagrant
 .phpunit.result.cache
+server/public/media

@@ -24,87 +24,22 @@ Route::controller(AuthController::class)
         Route::post('/register', 'register')->name('register');
     });
 
+Route::apiResource('tours', TourController::class);
 
-Route::controller(ReviewController::class)
-    ->prefix('reviews')
-    ->name('review.')
-    ->group(function () {
+Route::apiResource('reservations', ReservationController::class);
 
-        Route::middleware('auth:sanctum')->group(function () {
-            Route::post('/update/{review}', 'update')->name('update');
-            Route::delete('/remove/{review}', 'destroy')->name('destroy');
-            Route::delete('/{review}', 'delete')->name('delete');
+Route::apiResource('offers', OfferController::class);
 
-        });
+Route::apiResource('options', OptionsController::class);
 
-        Route::post('/store', 'store')->name('store');
-        Route::get('/all', 'index')->name('index');
-        Route::get('/{review}', 'show')->name('show');
-    });
-
-
-Route::controller(OfferController::class)
-    ->prefix('offers')
-    ->name('offer.')
-    ->group(function () {
-
-        Route::middleware('auth:sanctum')->group(function () {
-            Route::post('/store', 'store')->name('store');
-            Route::post('/update/{offer}', 'update')->name('update');
-            Route::delete('/{offer}', 'destroy')->name('destroy');
-        });
-
-        Route::get('/all', 'index')->name('index');
-        Route::get('/{offer}', 'show')->name('show');
-    });
-
-
-Route::controller(TourController::class)
-    ->prefix('tours')
-    ->name('tour.')
-    ->group(function () {
-
-        Route::middleware('auth:sanctum')->group(function () {
-            Route::post('/store', 'store')->name('store');
-            Route::post('/update/{tour}', 'update')->name('update');
-            Route::post('/add-image/{tour}', 'addImage')->name('addImage');
-            Route::post('/delete-image/{tour}', 'deleteImage')->name('deleteImage');
-            Route::delete('/{tour}', 'destroy')->name('destroy');
-        });
-
-        Route::get('/all', 'index')->name('index');
-        Route::get('/{tour}', 'show')->name('show');
-    });
+Route::apiResource('reviews', ReviewController::class);
+Route::delete('reviews/force/{review}', [ReviewController::class, 'destroy'])
+    ->name('reviews.destroy');
 
 
 
-Route::controller(OptionsController::class)
-    ->prefix('options')
-    ->name('option.')
-    ->group(function () {
-
-        Route::middleware('auth:sanctum')->group(function () {
-            Route::post('/store', 'store')->name('store');
-            Route::post('/update/{option}', 'update')->name('update');
-            Route::delete('/{option}', 'destroy')->name('destroy');
-        });
-
-        Route::get('/all', 'index')->name('index');
-        Route::get('/{option}', 'show')->name('show');
-    });
 
 
-Route::controller(ReservationController::class)
-    ->prefix('reservations')
-    ->name('reservation.')
-    ->group(function () {
 
-        Route::middleware('auth:sanctum')->group(function () {
-            Route::post('/update/{reservation}', 'update')->name('update');
-            Route::delete('/{reservation}', 'destroy')->name('destroy');
-            Route::get('/all', 'index')->name('index');
-        });
 
-        Route::post('/store', 'store')->name('store');
-        Route::get('/{reservation}', 'show')->name('show');
-    });
+

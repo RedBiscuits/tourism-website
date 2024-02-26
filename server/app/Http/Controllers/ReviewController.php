@@ -14,7 +14,6 @@ class ReviewController extends Controller
     public function index()
     {
         $reviews = Review::withTrashed()
-            ->withTrashed()
             ->when(request('title'), function ($query, $search) {
                 $query->where('title', 'like', "%$search%");
             })->when(request('body'), function ($query, $search) {
