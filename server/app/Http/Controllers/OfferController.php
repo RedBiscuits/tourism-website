@@ -72,6 +72,8 @@ class OfferController extends Controller
      */
     public function destroy(Offer $offer)
     {
+        abort_if(!auth()->check(), Response::HTTP_UNAUTHORIZED, 'Unauthorized');
+
         $offer->delete();
         return $this->respondNoContent();
     }

@@ -25,6 +25,8 @@ class ReservationController extends Controller
      */
     public function index()
     {
+        abort_if(!auth()->check(), Response::HTTP_UNAUTHORIZED, 'Unauthorized');
+
         $query = Reservation::query();
         $reservations = (new ReservationService($query))
             ->applyFilters(request()->all())
@@ -65,6 +67,8 @@ class ReservationController extends Controller
      */
     public function destroy(Reservation $reservation)
     {
+        abort_if(!auth()->check(), Response::HTTP_UNAUTHORIZED, 'Unauthorized');
+
         $reservation->delete();
         return $this->respondNoContent();
     }

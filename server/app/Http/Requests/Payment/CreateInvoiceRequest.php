@@ -11,7 +11,7 @@ class CreateInvoiceRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return auth('sanctum')->check();
+        return true;
     }
 
     /**
@@ -25,6 +25,11 @@ class CreateInvoiceRequest extends FormRequest
             'payment_method_id' => 'required|numeric|min:1',
             'amount' => 'required|integer|min:1',
             'payment_number' => 'required|numeric|min:01000000000',
+            'reservation_id' => 'required|string|exists:reservations,uid',
+            'currency' => 'required|string|in:USD,EGP',
+            'name' => 'required|string',
+            'email' => 'required|email',
+            'city' => 'required|string',
         ];
     }
 }

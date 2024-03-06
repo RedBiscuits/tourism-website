@@ -3,6 +3,7 @@
 namespace App\Http\Services\Payment;
 
 use App\Models\Invoice;
+use App\Models\Reservation;
 use Illuminate\Support\Facades\Http;
 
 class PaymentService
@@ -16,11 +17,11 @@ class PaymentService
     {
         return Http::withHeaders([
             'Content-Type' => 'application/json',
-            'Authorization' => 'Bearer '.env('PAYMENT_API_KEY'),
-        ])->get(env($this->api_env).'getPaymentmethods')->json();
+            'Authorization' => 'Bearer ' . env('PAYMENT_API_KEY'),
+        ])->get(env($this->api_env) . 'getPaymentmethods')->json();
     }
 
-    public function get_common_data($user, $data)
+    public function get_common_data($data)
     {
         return [
             'payment_method_id' => $data['payment_method_id'],
@@ -37,11 +38,11 @@ class PaymentService
                 ],
             ],
             'customer' => [
-                'first_name' => $user->name ?? 'User',
+                'first_name' => $data['name'],
                 'last_name' => '.',
-                'email' => $user->email ?? 'User@domain.com',
-                'phone' => $data['payment_number'] ,
-                'address' => $user->city ?? 'Cairo',
+                'email' => $data['email'] ?? 'User@domain.com',
+                'phone' => $data['payment_number'],
+                'address' => $data['city'] ?? 'Cairo',
             ],
             // "redirectionUrls" => [
             //     "successUrl" => "https://account.firststepacademy.online/payment/success",
@@ -55,19 +56,19 @@ class PaymentService
     {
         $response = Http::withToken(env('PAYMENT_API_KEY'))->withHeaders([
             'Content-Type' => 'application/json',
-        ])->post(env($this->api_env).'invoiceInitPay', $common_data);
+        ])->post(env($this->api_env) . 'invoiceInitPay', $common_data);
 
         return $response->json();
     }
 
-    public function create_invoice($user_id, $invoice_number, $payment_method_id, $amount, $invoice_key)
+    public function create_invoice($reservation_id, $invoice_number, $payment_method_id, $amount, $currency, $invoice_key)
     {
         Invoice::create([
-            'user_id' => $user_id,
+            'reservation_id' => $reservation_id,
             'invoice_number' => $invoice_number,
             'payment_method_id' => $payment_method_id,
             'amount' => $amount,
-            'currency' => 'EGP',
+            'currency' => $currency,
             'invoice_key' => $invoice_key,
         ]);
     }
@@ -81,7 +82,7 @@ class PaymentService
 
     public function updateInvoice($invoice, $paidAmount, $paymentMethod)
     {
-        $paidAmount = intval($paidAmount);
+        $paidAmount = floatval($paidAmount);
 
         $invoice->update([
             'status' => 1,
@@ -90,9 +91,10 @@ class PaymentService
         ]);
     }
 
-    public function updateUserBalance($user, $paidAmount)
+    public function updateReservationBalance($res_id, $paidAmount)
     {
-        $user->money += $paidAmount;
-        $user->save();
+        Reservation::where('id', $res_id)->increment('amount_paid', $paidAmount);
     }
+
+
 }

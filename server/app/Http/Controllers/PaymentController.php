@@ -20,26 +20,26 @@ class PaymentController extends Controller
     public function getPaymentMethods()
     {
         // $response = Cache::remember('payment_methods', now()->addDay(), function () {
-            return $this->_service->get_payment_methods();
+        $response = $this->_service->get_payment_methods();
         // });
 
-        // return $this->respondOk($response);
+        return $this->respondOk($response);
     }
 
     public function createInvoice(CreateInvoiceRequest $request)
     {
         $data = $request->validated();
 
-        $user = auth('sanctum')->user();
-
-        $commonData = $this->_service->get_common_data($user, $data);
+        $commonData = $this->_service->get_common_data($data);
 
         $response = $this->_service->send_init_payment($commonData);
+
         $this->_service->create_invoice(
-            $user->id,
+            $data['reservation_id'],
             $response['data']['invoice_id'],
             $data['payment_method_id'],
             $data['amount'],
+            $data['currency'],
             $response['data']['invoice_key']
         );
 
@@ -57,11 +57,9 @@ class PaymentController extends Controller
 
                 $invoice = $this->_service->getInvoice($data['invoice_id'], $data['invoice_key']);
 
-                $user = $invoice->user;
-
                 $this->_service->updateInvoice($invoice, $data['paidAmount'], $data['payment_method']);
 
-                $this->_service->updateUserBalance($user, $data['paidAmount']);
+                $this->_service->updateReservationBalance($invoice->reservation_id, $data['paidAmount']);
             });
         }
 

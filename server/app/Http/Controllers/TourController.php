@@ -7,6 +7,8 @@ use App\Http\Requests\Tour\UpdateTourRequest;
 use App\Http\Services\TourService;
 use App\Models\Tour;
 use Illuminate\Http\Request;
+use Illuminate\Validation\UnauthorizedException;
+use Illuminate\Http\Response;
 
 class TourController extends Controller
 {
@@ -95,6 +97,8 @@ class TourController extends Controller
      */
     public function destroy(Tour $tour)
     {
+        abort_if(!auth()->check(), Response::HTTP_UNAUTHORIZED, 'Unauthorized');
+
         $tour->delete();
         return $this->respondNoContent();
     }
@@ -108,6 +112,8 @@ class TourController extends Controller
      */
     public function addImage(Request $request, Tour $tour)
     {
+        abort_if(!auth()->check(), Response::HTTP_UNAUTHORIZED, 'Unauthorized');
+
         $request->validate([
             'media' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
@@ -126,6 +132,8 @@ class TourController extends Controller
      */
     public function deleteImage(Tour $tour)
     {
+        abort_if(!auth()->check(), Response::HTTP_UNAUTHORIZED, 'Unauthorized');
+
         $tour->deleteMedia(request()->get('mediaId'));
 
         return response()->json(['message' => 'Image deleted successfully']);

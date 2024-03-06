@@ -32,6 +32,17 @@ class Reservation extends Model
         'date' => 'date'
     ];
 
+
+    public function getStatusAttribute()
+    {
+        return $this->total_amount - $this->amount_paid < 5.01;
+    }
+
+    public function invoice()
+    {
+        return $this->belongsTo(Invoice::class);
+    }
+
     protected static function boot()
     {
         parent::boot();
@@ -45,6 +56,4 @@ class Reservation extends Model
     {
         return $this->belongsTo(Tour::class);
     }
-
-
 }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\TourController;
 use App\Http\Controllers\OfferController;
 use App\Http\Controllers\OptionsController;
@@ -32,6 +33,8 @@ Route::apiResource('reservations', ReservationController::class);
 Route::apiResource('offers', OfferController::class);
 
 Route::apiResource('options', OptionsController::class);
+
+Route::apiResource('invoices', InvoiceController::class)->middleware('auth:sanctum');
 
 Route::apiResource('reviews', ReviewController::class);
 Route::delete('reviews/force/{review}', [ReviewController::class, 'destroy'])
