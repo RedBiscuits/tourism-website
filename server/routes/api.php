@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\TourController;
 use App\Http\Controllers\OfferController;
 use App\Http\Controllers\OptionsController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\ReviewController;
 use Illuminate\Http\Request;
@@ -36,10 +37,10 @@ Route::apiResource('reviews', ReviewController::class);
 Route::delete('reviews/force/{review}', [ReviewController::class, 'destroy'])
     ->name('reviews.destroy');
 
-
-
-
-
-
-
-
+Route::controller(PaymentController::class)
+    ->prefix('payment')
+    ->group(function () {
+        Route::post('/createInvoice', 'createInvoice');
+        Route::post('/webhook_json', 'fawaterak_webhook');
+        Route::get('/get-methods', 'getPaymentMethods');
+    });

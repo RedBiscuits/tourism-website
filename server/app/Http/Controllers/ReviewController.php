@@ -20,7 +20,7 @@ class ReviewController extends Controller
                 $query->where('body', 'like', "%$search%");
             })->when(request('stars'), function ($query, $stars) {
                 $query->where('stars', $stars);
-            })
+            })->with('tour')
             ->paginate();
 
         return $this->respondOk($reviews);
@@ -39,7 +39,7 @@ class ReviewController extends Controller
      */
     public function show(Review $review)
     {
-        return $this->respondOk($review);
+        return $this->respondOk($review->load('tour'));
     }
 
     /**
