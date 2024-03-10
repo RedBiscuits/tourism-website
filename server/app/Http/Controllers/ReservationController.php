@@ -8,6 +8,7 @@ use App\Http\Services\ReservationService;
 use App\Models\Reservation;
 use App\Models\Tour;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class ReservationController extends Controller
 {

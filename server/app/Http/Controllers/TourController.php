@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\UnauthorizedException;
 use Illuminate\Http\Response;
 
+use function PHPUnit\Framework\returnSelf;
+
 class TourController extends Controller
 {
 
