@@ -19,7 +19,7 @@ class AuthController extends Controller
     {
         if (Auth::attempt([
             'email' => $request->validated()['email'],
-            'password' => $request->validated()['password']
+            'password' => $request->validated()['password'],
         ])) {
             $user = Auth::user();
 
@@ -36,11 +36,10 @@ class AuthController extends Controller
 
     public function register(CreateUserRequest $request)
     {
-        $user = User::create( $request->validated() );
+        $user = User::create($request->validated());
 
         return $this->respondOk($user, 'User created successfully');
     }
-
 
     public function logout()
     {

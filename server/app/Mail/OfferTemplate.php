@@ -3,12 +3,8 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Mail\Mailables\Address;
-use Illuminate\Mail\Mailables\Envelope;
-
 
 class OfferTemplate extends Mailable
 {
@@ -19,7 +15,7 @@ class OfferTemplate extends Mailable
     /**
      * Create a new message instance.
      *
-     * @param Offer $offer
+     * @param  Offer  $offer
      */
     public function __construct($offer)
     {
@@ -39,5 +35,4 @@ class OfferTemplate extends Mailable
             ])
             ->subject('LS Tires Auto new offer');
     }
-
 }

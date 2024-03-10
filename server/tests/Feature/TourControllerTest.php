@@ -3,13 +3,10 @@
 namespace Tests\Feature;
 
 use App\Models\Tour;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class TourControllerTest extends TestCase
 {
-
     /** @test */
     public function it_returns_paginated_tours()
     {
@@ -21,7 +18,7 @@ class TourControllerTest extends TestCase
             'name' => 'search_name',
             'description' => 'search_description',
             'location' => 'search_location',
-            'duration' => 'search_duration'
+            'duration' => 'search_duration',
         ];
 
         // Make a GET request to the endpoint

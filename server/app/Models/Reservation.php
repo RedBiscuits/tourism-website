@@ -11,7 +11,9 @@ class Reservation extends Model
     use HasFactory;
 
     protected $primaryKey = 'uid';
+
     protected $keyType = 'string';
+
     public $incrementing = false;
 
     protected $fillable = [
@@ -24,14 +26,13 @@ class Reservation extends Model
         'room_uid',
         'num_people',
         'total_amount',
-        'invoice_id'
+        'invoice_id',
     ];
 
     protected $casts = [
         'uid' => 'string',
-        'date' => 'date'
+        'date' => 'date',
     ];
-
 
     public function getStatusAttribute()
     {

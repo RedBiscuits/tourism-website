@@ -19,7 +19,7 @@ class InvoiceController extends Controller
 
     public function index(Request $request)
     {
-        
+
         $query = Invoice::query();
 
         $query->when($request->has('payment_method_id'), function ($q) use ($request) {
@@ -95,5 +95,4 @@ class InvoiceController extends Controller
 
         return $response['data'];
     }
-
 }

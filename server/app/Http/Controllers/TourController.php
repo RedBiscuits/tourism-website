@@ -7,16 +7,11 @@ use App\Http\Requests\Tour\UpdateTourRequest;
 use App\Http\Services\TourService;
 use App\Models\Tour;
 use Illuminate\Http\Request;
-use Illuminate\Validation\UnauthorizedException;
 use Illuminate\Http\Response;
-
-use function PHPUnit\Framework\returnSelf;
 
 class TourController extends Controller
 {
-
     private TourService $tour_service;
-
 
     public function __construct(TourService $service)
     {
@@ -47,7 +42,6 @@ class TourController extends Controller
         return $this->respondOk($commodities);
     }
 
-
     /**
      * Store a newly created resource in storage.
      */
@@ -77,7 +71,6 @@ class TourController extends Controller
         return $this->respondOk($tour->load(['media', 'reviews', 'options:id,tour_id,name,price']));
     }
 
-
     /**
      * Update the specified resource in storage.
      */
@@ -99,24 +92,21 @@ class TourController extends Controller
      */
     public function destroy(Tour $tour)
     {
-                abort_if(!auth('sanctum')->check(), Response::HTTP_UNAUTHORIZED, 'Unauthorized');
-
+        abort_if(! auth('sanctum')->check(), Response::HTTP_UNAUTHORIZED, 'Unauthorized');
 
         $tour->delete();
+
         return $this->respondNoContent();
     }
 
     /**
      * Add an image to the tour's media collection.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Tour $tour
      * @return \Illuminate\Http\JsonResponse
      */
     public function addImage(Request $request, Tour $tour)
     {
-                abort_if(!auth('sanctum')->check(), Response::HTTP_UNAUTHORIZED, 'Unauthorized');
-
+        abort_if(! auth('sanctum')->check(), Response::HTTP_UNAUTHORIZED, 'Unauthorized');
 
         $request->validate([
             'media' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -130,14 +120,12 @@ class TourController extends Controller
     /**
      * Delete a specific image from the tour's media collection.
      *
-     * @param \App\Models\Tour $tour
-     * @param int $mediaId
+     * @param  int  $mediaId
      * @return \Illuminate\Http\JsonResponse
      */
     public function deleteImage(Tour $tour)
     {
-                abort_if(!auth('sanctum')->check(), Response::HTTP_UNAUTHORIZED, 'Unauthorized');
-
+        abort_if(! auth('sanctum')->check(), Response::HTTP_UNAUTHORIZED, 'Unauthorized');
 
         $tour->deleteMedia(request()->get('mediaId'));
 

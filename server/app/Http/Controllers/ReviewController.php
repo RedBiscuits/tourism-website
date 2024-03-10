@@ -49,6 +49,7 @@ class ReviewController extends Controller
     {
         // return $request->validated();
         $review->update($request->validated());
+
         return $this->respondOk($review);
     }
 
@@ -58,9 +59,9 @@ class ReviewController extends Controller
     public function force_delete(Review $review)
     {
         $review->forceDelete();
+
         return $this->respondNoContent();
     }
-
 
     /**
      * Remove the specified resource from storage.
@@ -68,6 +69,7 @@ class ReviewController extends Controller
     public function destroy(Review $review)
     {
         $review->delete();
+
         return $this->respondNoContent();
     }
 }

@@ -24,8 +24,8 @@ class StoreOfferRequest extends FormRequest
         return [
             'title' => ['required', 'string'],
             'description' => ['required', 'string'],
-            'discount' => ['required', 'numeric' , 'between:0,100'],
-            'image' => ['nullable', 'image' , 'mimes:jpeg,png,jpg,gif', 'max:2048'],
+            'discount' => ['required', 'numeric', 'between:0,100'],
+            'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
             'tour_id' => ['required', 'exists:tours,id'],
         ];
     }

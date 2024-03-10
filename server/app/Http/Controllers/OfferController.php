@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Offer\StoreOfferRequest;
-use App\Models\Offer;
 use App\Http\Requests\Offer\UpdateOfferRequest;
+use App\Models\Offer;
 
 class OfferController extends Controller
 {
@@ -51,7 +51,6 @@ class OfferController extends Controller
         return $this->respondOk($offer->load(['media', 'category']));
     }
 
-
     /**
      * Update the specified resource in storage.
      */
@@ -72,10 +71,10 @@ class OfferController extends Controller
      */
     public function destroy(Offer $offer)
     {
-        abort_if(!auth('sanctum')->check(), Response::HTTP_UNAUTHORIZED, 'Unauthorized');
-
+        abort_if(! auth('sanctum')->check(), Response::HTTP_UNAUTHORIZED, 'Unauthorized');
 
         $offer->delete();
+
         return $this->respondNoContent();
     }
 }

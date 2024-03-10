@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Option\CreateOptionRequest;
 use App\Http\Requests\Option\UpdateOptionRequest;
 use App\Models\Option;
-use Illuminate\Http\Request;
 
 class OptionsController extends Controller
 {
@@ -35,20 +34,21 @@ class OptionsController extends Controller
     public function store(CreateOptionRequest $request)
     {
         $option = Option::create($request->all());
+
         return $this->respondOk($option);
     }
 
     public function update(UpdateOptionRequest $request, Option $option)
     {
         $option->update($request->all());
+
         return $this->respondOk($option);
     }
 
     public function destroy(Option $option)
     {
         $option->delete();
+
         return $this->respondNoContent();
     }
-
-
 }

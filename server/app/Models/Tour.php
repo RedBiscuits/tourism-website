@@ -21,7 +21,6 @@ class Tour extends Model implements HasMedia
         'price',
     ];
 
-
     public function reviews()
     {
         return $this->hasMany(Review::class);
@@ -36,7 +35,7 @@ class Tour extends Model implements HasMedia
     {
         return $this->hasMany(Reservation::class);
     }
-    
+
     public function setIncludesAttribute($value)
     {
         $this->attributes['includes'] = json_encode($value);

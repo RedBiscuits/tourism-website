@@ -6,15 +6,11 @@ use App\Http\Requests\Reservations\CreateReservationRequest;
 use App\Http\Requests\Reservations\UpdateReservationRequest;
 use App\Http\Services\ReservationService;
 use App\Models\Reservation;
-use App\Models\Tour;
-use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class ReservationController extends Controller
 {
-
     private ReservationService $service;
-
 
     public function __construct(ReservationService $reservation_service)
     {
@@ -26,7 +22,7 @@ class ReservationController extends Controller
      */
     public function index()
     {
-        abort_if(!auth('sanctum')->check(), Response::HTTP_UNAUTHORIZED, 'Unauthorized');
+        abort_if(! auth('sanctum')->check(), Response::HTTP_UNAUTHORIZED, 'Unauthorized');
 
         $query = Reservation::query();
         $reservations = (new ReservationService($query))
@@ -43,6 +39,7 @@ class ReservationController extends Controller
     public function store(CreateReservationRequest $request)
     {
         $fields = $this->service->format($request->validated());
+
         return $this->respondOK(Reservation::create($fields));
     }
 
@@ -60,6 +57,7 @@ class ReservationController extends Controller
     public function update(UpdateReservationRequest $request, Reservation $reservation)
     {
         $reservation->update($request->validated());
+
         return $this->respondOk($reservation);
     }
 
@@ -68,10 +66,10 @@ class ReservationController extends Controller
      */
     public function destroy(Reservation $reservation)
     {
-        abort_if(!auth('sanctum')->check(), Response::HTTP_UNAUTHORIZED, 'Unauthorized');
-
+        abort_if(! auth('sanctum')->check(), Response::HTTP_UNAUTHORIZED, 'Unauthorized');
 
         $reservation->delete();
+
         return $this->respondNoContent();
     }
 }

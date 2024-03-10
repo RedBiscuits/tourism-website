@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Services;
 
 use App\Models\Tour;
@@ -16,7 +17,7 @@ class ReservationService
     public function applyFilters(array $filters)
     {
         foreach ($filters as $key => $value) {
-            if (method_exists($this, $method = 'filterBy' . ucfirst($key))) {
+            if (method_exists($this, $method = 'filterBy'.ucfirst($key))) {
                 $this->$method($value);
             }
         }
@@ -28,6 +29,7 @@ class ReservationService
     {
         $tour_price = Tour::find($fields['tour_id'])->price;
         $fields['total_amount'] = $tour_price * $fields['num_people'];
+
         return $fields;
     }
 

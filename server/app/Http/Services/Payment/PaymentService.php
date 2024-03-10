@@ -17,8 +17,8 @@ class PaymentService
     {
         return Http::withHeaders([
             'Content-Type' => 'application/json',
-            'Authorization' => 'Bearer ' . env('PAYMENT_API_KEY'),
-        ])->get(env($this->api_env) . 'getPaymentmethods')->json();
+            'Authorization' => 'Bearer '.env('PAYMENT_API_KEY'),
+        ])->get(env($this->api_env).'getPaymentmethods')->json();
     }
 
     public function get_common_data($data)
@@ -56,7 +56,7 @@ class PaymentService
     {
         $response = Http::withToken(env('PAYMENT_API_KEY'))->withHeaders([
             'Content-Type' => 'application/json',
-        ])->post(env($this->api_env) . 'invoiceInitPay', $common_data);
+        ])->post(env($this->api_env).'invoiceInitPay', $common_data);
 
         return $response->json();
     }
@@ -95,6 +95,4 @@ class PaymentService
     {
         Reservation::where('id', $res_id)->increment('amount_paid', $paidAmount);
     }
-
-
 }

@@ -24,8 +24,8 @@ class UpdateOfferRequest extends FormRequest
         return [
             'title' => 'string',
             'description' => 'string',
-            'discount' =>  ['numeric' , 'between:0,100'],
-            'image' => ['nullable', 'image' , 'mimes:jpeg,png,jpg,gif', 'max:2048'],
+            'discount' => ['numeric', 'between:0,100'],
+            'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
             'tour_id' => ['exists:tours,id'],
         ];
     }

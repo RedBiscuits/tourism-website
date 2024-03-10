@@ -12,7 +12,7 @@ class Option extends Model
     protected $fillable = [
         'name',
         'price',
-        'tour_id'
+        'tour_id',
     ];
 
     public function tour()

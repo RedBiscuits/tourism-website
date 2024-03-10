@@ -3,12 +3,8 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Mail\Mailables\Address;
-use Illuminate\Mail\Mailables\Envelope;
-
 
 class VerifySubscription extends Mailable
 {
@@ -19,7 +15,7 @@ class VerifySubscription extends Mailable
     /**
      * Create a new message instance.
      *
-     * @param string $otp
+     * @param  string  $otp
      */
     public function __construct($otp)
     {
@@ -39,5 +35,4 @@ class VerifySubscription extends Mailable
             ])
             ->subject('Verify Your Subscription');
     }
-
 }

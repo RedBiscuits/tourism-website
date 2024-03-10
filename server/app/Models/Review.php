@@ -15,7 +15,7 @@ class Review extends Model
         'body',
         'stars',
         'tour_id',
-        'deleted_at'
+        'deleted_at',
     ];
 
     public function tour()
