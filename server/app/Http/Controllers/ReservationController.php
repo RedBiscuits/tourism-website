@@ -26,7 +26,7 @@ class ReservationController extends Controller
      */
     public function index()
     {
-        abort_if(!auth()->check(), Response::HTTP_UNAUTHORIZED, 'Unauthorized');
+        abort_if(!auth('sanctum')->check(), Response::HTTP_UNAUTHORIZED, 'Unauthorized');
 
         $query = Reservation::query();
         $reservations = (new ReservationService($query))
@@ -43,7 +43,7 @@ class ReservationController extends Controller
     public function store(CreateReservationRequest $request)
     {
         $fields = $this->service->format($request->validated());
-        return $this->respondOK( Reservation::create($fields));
+        return $this->respondOK(Reservation::create($fields));
     }
 
     /**
@@ -68,7 +68,8 @@ class ReservationController extends Controller
      */
     public function destroy(Reservation $reservation)
     {
-        abort_if(!auth()->check(), Response::HTTP_UNAUTHORIZED, 'Unauthorized');
+        abort_if(!auth('sanctum')->check(), Response::HTTP_UNAUTHORIZED, 'Unauthorized');
+
 
         $reservation->delete();
         return $this->respondNoContent();

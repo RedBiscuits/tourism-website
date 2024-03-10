@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Reservation;
+use App\Models\Review;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
@@ -40,6 +41,10 @@ class RouteServiceProvider extends ServiceProvider
 
         Route::bind('reservation', function ($value) {
             return Reservation::where('uid', $value)->firstOrFail();
+        });
+
+        Route::bind('review', function ($value) {
+            return Review::where('id', $value)->withTrashed()->firstOrFail();
         });
     }
 }

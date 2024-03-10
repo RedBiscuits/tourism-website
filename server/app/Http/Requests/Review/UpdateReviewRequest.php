@@ -26,7 +26,7 @@ class UpdateReviewRequest extends FormRequest
             'body' => 'string|max:2055',
             'stars' => 'integer|min:0|max:5',
             'tour_id' => 'integer|min:1|exists:tours,id',
-            'deleted_at' => 'date_format:Y-m-d H:i:s|nullable',
+            'deleted_at' => 'nullable',
         ];
     }
 }

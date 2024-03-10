@@ -37,8 +37,8 @@ Route::apiResource('options', OptionsController::class);
 Route::apiResource('invoices', InvoiceController::class)->middleware('auth:sanctum');
 
 Route::apiResource('reviews', ReviewController::class);
-Route::delete('reviews/force/{review}', [ReviewController::class, 'destroy'])
-    ->name('reviews.destroy');
+Route::delete('reviews/force/{review}', [ReviewController::class, 'force_delete'])
+    ->name('reviews.force_delete');
 
 Route::controller(PaymentController::class)
     ->prefix('payment')

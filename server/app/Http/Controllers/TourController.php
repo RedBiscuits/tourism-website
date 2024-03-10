@@ -99,7 +99,8 @@ class TourController extends Controller
      */
     public function destroy(Tour $tour)
     {
-        abort_if(!auth()->check(), Response::HTTP_UNAUTHORIZED, 'Unauthorized');
+                abort_if(!auth('sanctum')->check(), Response::HTTP_UNAUTHORIZED, 'Unauthorized');
+
 
         $tour->delete();
         return $this->respondNoContent();
@@ -114,7 +115,8 @@ class TourController extends Controller
      */
     public function addImage(Request $request, Tour $tour)
     {
-        abort_if(!auth()->check(), Response::HTTP_UNAUTHORIZED, 'Unauthorized');
+                abort_if(!auth('sanctum')->check(), Response::HTTP_UNAUTHORIZED, 'Unauthorized');
+
 
         $request->validate([
             'media' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -134,7 +136,8 @@ class TourController extends Controller
      */
     public function deleteImage(Tour $tour)
     {
-        abort_if(!auth()->check(), Response::HTTP_UNAUTHORIZED, 'Unauthorized');
+                abort_if(!auth('sanctum')->check(), Response::HTTP_UNAUTHORIZED, 'Unauthorized');
+
 
         $tour->deleteMedia(request()->get('mediaId'));
 
