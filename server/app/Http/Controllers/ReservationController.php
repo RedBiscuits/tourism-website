@@ -4,17 +4,23 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Reservations\CreateReservationRequest;
 use App\Http\Requests\Reservations\UpdateReservationRequest;
+use App\Http\Services\Payment\PaymentService;
 use App\Http\Services\ReservationService;
 use App\Models\Reservation;
+use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response;
 
 class ReservationController extends Controller
 {
     private ReservationService $service;
+    private PaymentService $payment_service;
 
-    public function __construct(ReservationService $reservation_service)
-    {
+    public function __construct(
+        ReservationService $reservation_service,
+        PaymentService $payment_service
+    ) {
         $this->service = $reservation_service;
+        $this->payment_service = $payment_service;
     }
 
     /**
@@ -22,7 +28,7 @@ class ReservationController extends Controller
      */
     public function index()
     {
-        abort_if(! auth('sanctum')->check(), Response::HTTP_UNAUTHORIZED, 'Unauthorized');
+        abort_if(!auth('sanctum')->check(), Response::HTTP_UNAUTHORIZED, 'Unauthorized');
 
         $query = Reservation::query();
         $reservations = (new ReservationService($query))
@@ -39,8 +45,30 @@ class ReservationController extends Controller
     public function store(CreateReservationRequest $request)
     {
         $fields = $this->service->format($request->validated());
+        DB::beginTransaction();
 
-        return $this->respondOK(Reservation::create($fields));
+        $reservation = Reservation::create($fields);
+
+        $response = $this->payment_service->send_init_payment(
+            $this->payment_service->get_common_data($request->validated())
+        );
+
+        $invoice = $this->payment_service->create_invoice(
+            $reservation->id,
+            $response['data']['invoice_id'],
+            $fields['payment_method_id'],
+            $fields['amount'],
+            $fields['currency'],
+            $response['data']['invoice_key']
+        );
+
+        DB::commit();
+
+        return $this->respondOK([
+            'reservation' => $reservation,
+            'invoice' => $invoice,
+            'payment' => $response
+        ]);
     }
 
     /**
@@ -66,7 +94,7 @@ class ReservationController extends Controller
      */
     public function destroy(Reservation $reservation)
     {
-        abort_if(! auth('sanctum')->check(), Response::HTTP_UNAUTHORIZED, 'Unauthorized');
+        abort_if(!auth('sanctum')->check(), Response::HTTP_UNAUTHORIZED, 'Unauthorized');
 
         $reservation->delete();
 
