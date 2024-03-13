@@ -50,14 +50,14 @@ class ReservationController extends Controller
         $reservation = Reservation::create($fields);
 
         $response = $this->payment_service->send_init_payment(
-            $this->payment_service->get_common_data($request->validated())
+            $this->payment_service->get_common_data($fields)
         );
 
         $invoice = $this->payment_service->create_invoice(
-            $reservation->id,
+            $reservation->uid,
             $response['data']['invoice_id'],
             $fields['payment_method_id'],
-            $fields['amount'],
+            $fields['total_amount'],
             $fields['currency'],
             $response['data']['invoice_key']
         );

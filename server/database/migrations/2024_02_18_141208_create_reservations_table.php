@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('email');
             $table->string('phone');
             $table->string('date');
-            $table->string('invoice_id');
             $table->string('hotel_name');
             $table->string('room_uid');
             $table->unsignedInteger('num_people');

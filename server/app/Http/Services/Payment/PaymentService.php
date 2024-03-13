@@ -25,15 +25,15 @@ class PaymentService
     {
         return [
             'payment_method_id' => $data['payment_method_id'],
-            'cartTotal' => intval($data['amount']),
+            'cartTotal' => intval($data['amount'] ?? $data['total_amount']),
             'currency' => $data['currency'] ?? 'EGP',
             'customExpireDate' => '+1 days',
             'sendEmail' => true,
             'sendSMS' => true,
             'cartItems' => [
                 [
-                    'name' => 'First Step Balance Payment',
-                    'price' => intval($data['amount']),
+                    'name' => 'Reservation Payment for' . env('APP_NAME'),
+                    'price' => intval($data['amount'] ?? $data['total_amount']),
                     'quantity' => '1',
                 ],
             ],
@@ -63,7 +63,7 @@ class PaymentService
 
     public function create_invoice($reservation_id, $invoice_number, $payment_method_id, $amount, $currency, $invoice_key)
     {
-        Invoice::create([
+        return Invoice::create([
             'reservation_id' => $reservation_id,
             'invoice_number' => $invoice_number,
             'payment_method_id' => $payment_method_id,
@@ -71,6 +71,7 @@ class PaymentService
             'currency' => $currency,
             'invoice_key' => $invoice_key,
         ]);
+
     }
 
     public function getInvoice($invoiceId, $invoiceKey)

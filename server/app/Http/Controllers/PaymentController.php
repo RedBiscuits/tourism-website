@@ -19,9 +19,10 @@ class PaymentController extends Controller
 
     public function getPaymentMethods()
     {
-        // $response = Cache::remember('payment_methods', now()->addDay(), function () {
-        $response = $this->_service->get_payment_methods();
-        // });
+        $response = null;
+        Cache::remember('payment_methods', now()->addDay(), function () use (&$response) {
+            $response = $this->_service->get_payment_methods();
+        });
 
         return $this->respondOk($response);
     }

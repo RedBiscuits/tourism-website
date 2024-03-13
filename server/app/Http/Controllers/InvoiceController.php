@@ -48,7 +48,8 @@ class InvoiceController extends Controller
 
         $query->when($request->has('payment_method'), function ($q) use ($request) {
             return $q->where('payment_method', $request->input('payment_method'));
-        });
+        })
+        ->with('reservation');
 
         $invoices = $query->paginate();
 
@@ -64,7 +65,7 @@ class InvoiceController extends Controller
 
     public function show(Invoice $invoice)
     {
-        return response()->json($invoice);
+        return response()->json($invoice->load('reservation'));
     }
 
     public function update(UpdateInvoiceRequest $request, Invoice $invoice)

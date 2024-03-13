@@ -21,6 +21,10 @@ class Invoice extends Model
         'reservation_id',
     ];
 
+    protected $hidden = [
+        'invoice_key',
+    ];
+
     public function reservation()
     {
         return $this->belongsTo(Reservation::class);

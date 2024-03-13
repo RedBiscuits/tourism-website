@@ -39,9 +39,9 @@ class Reservation extends Model
         return $this->total_amount - $this->amount_paid < 5.01;
     }
 
-    public function invoice()
+    public function invoices()
     {
-        return $this->belongsTo(Invoice::class);
+        return $this->hasMany(Invoice::class);
     }
 
     protected static function boot()
