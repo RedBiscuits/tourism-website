@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('phone');
             $table->string('date');
             $table->string('hotel_name');
-            $table->string('room_uid');
+            $table->string('room_uid')->nullable();
             $table->unsignedInteger('num_people');
             $table->decimal('total_amount', 8, 2);
             $table->decimal('amount_paid', 8, 2)->default(0);
