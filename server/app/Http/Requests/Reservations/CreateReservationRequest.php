@@ -30,6 +30,8 @@ class CreateReservationRequest extends FormRequest
             'hotel_name' => 'required|string',
             'room_uid' => 'required|string',
             'num_people' => 'required|integer|min:1',
+            'options' => 'array|nullable',
+            'options.*' => 'integer|min:1|exists:options,id',
             'payment_method_id' => 'required|numeric|min:1',
             'payment_number' => 'required|numeric|min:11',
             'currency' => 'required|string|in:USD,EGP',

@@ -2,6 +2,7 @@
 
 namespace App\Http\Services;
 
+use App\Models\Option;
 use App\Models\Tour;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -17,7 +18,7 @@ class ReservationService
     public function applyFilters(array $filters)
     {
         foreach ($filters as $key => $value) {
-            if (method_exists($this, $method = 'filterBy'.ucfirst($key))) {
+            if (method_exists($this, $method = 'filterBy' . ucfirst($key))) {
                 $this->$method($value);
             }
         }
@@ -27,7 +28,12 @@ class ReservationService
 
     public function format($fields)
     {
-        $tour_price = Tour::find($fields['tour_id'])->price;
+        $tour_price = Tour::find($fields['tour_id'])->price
+            + Option::query()
+            ->whereIn('id', $fields['options'] ?? [])
+            ->where('tour_id', $fields['tour_id'])
+            ->sum('price');
+
         $fields['total_amount'] = $tour_price * $fields['num_people'];
 
         return $fields;

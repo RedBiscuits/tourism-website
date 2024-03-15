@@ -27,11 +27,13 @@ class Reservation extends Model
         'num_people',
         'total_amount',
         'invoice_id',
+        'options'
     ];
 
     protected $casts = [
         'uid' => 'string',
         'date' => 'date',
+        'options' => 'array',
     ];
 
     public function getStatusAttribute()

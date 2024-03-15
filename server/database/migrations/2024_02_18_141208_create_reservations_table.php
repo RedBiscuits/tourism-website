@@ -23,6 +23,7 @@ return new class extends Migration
             $table->unsignedInteger('num_people');
             $table->decimal('total_amount', 8, 2);
             $table->decimal('amount_paid', 8, 2)->default(0);
+            $table->json('options')->nullable();
             $table->foreignId('tour_id')->references('id')->on('tours')->onDelete('cascade');
             $table->timestamps();
         });
